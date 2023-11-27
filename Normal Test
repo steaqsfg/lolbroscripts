@@ -1,4 +1,4 @@
 Print("In 1")
 loadstring(game:HttpGet('https://raw.githubusercontent.com/steaqsfg/lolbroscripts/main/Httptest'))()
 -- IY
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+-- loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
