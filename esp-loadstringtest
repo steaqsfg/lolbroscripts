@@ -1,0 +1,46 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+function updateESP(player, isVisible)
+    local highlight = player.Character:FindFirstChild("Highlight")
+    local nameLabel = player.Character.Head:FindFirstChild("BillboardGui")
+
+    if highlight and nameLabel then
+        if isVisible then
+            highlight.FillColor = Color3.new(1, 1, 1)
+        else
+            highlight.FillColor = Color3.new(1, 0.247058, 0.247058)
+        end
+        nameLabel.TextLabel.Text = player.Name .. "\nHP: " .. player.Character.Humanoid.Health
+    end
+end
+
+function enableESP()
+    for _, p in pairs(game.Players:GetPlayers()) do
+        if p ~= player and p.Character and p.Character:FindFirstChild("Humanoid") then
+            local highlight = Instance.new("Highlight", p.Character)
+            highlight.FillColor = Color3.new(1, 1, 1)
+            highlight.FillTransparency = 0.5
+
+            local nameLabel = Instance.new("BillboardGui", p.Character.Head)
+            local textLabel = Instance.new("TextLabel", nameLabel)
+            nameLabel.Size = UDim2.new(0, 100, 0, 50)
+            nameLabel.Adornee = p.Character.Head
+            nameLabel.AlwaysOnTop = true
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.BackgroundTransparency = 1
+            textLabel.Text = p.Name .. "\nHP: " .. p.Character.Humanoid.Health
+        end
+    end
+    game:GetService("RunService").RenderStepped:Connect(function()
+        for _, p in pairs(game.Players:GetPlayers()) do
+            if p ~= player and p.Character and p.Character:FindFirstChild("Humanoid") then
+                local isVisible = true
+                updateESP(p, isVisible)
+            end
+        end
+    end)
+end
+
+enableESP()
